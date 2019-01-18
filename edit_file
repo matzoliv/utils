@@ -1,0 +1,14 @@
+#!/bin/sh
+
+basedir=$(git rev-parse --show-toplevel 2> /dev/null)
+
+if [ $? -eq 0 ]; then
+    target=$(git ls-files -co --exclude-standard --full-name "$basedir" | fzy -l 40)
+    
+    if [ $? -eq 0 ]; then
+        $EDITOR "$basedir/$target"
+    fi
+else
+    echo "not in a git repository"
+    exit 1
+fi

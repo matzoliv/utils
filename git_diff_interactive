@@ -1,0 +1,20 @@
+#!/bin/sh
+
+function prompt {
+    git status --short | fzy -l 40
+}
+
+choice=$(prompt)
+if [ $? -eq 0 ]
+then
+    file=$(echo "$choice" | sed -E 's/^.. (.*)$/\1/')
+    if echo "$choice" | grep -E '^.[^ ]'
+    then
+        git diff "$file"
+    fi
+
+    if echo "$choice" | grep -E '^[^ ].'
+    then
+        git diff --cached "$file"
+    fi
+fi

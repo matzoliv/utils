@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Must be used like this (use an alias) :
+# . cd_interactive.sh
+
+if [ ! -z "$1" ]; then
+    cd "$1"
+fi
+
+function cd_interactive {
+    TARGET=$(ls | fzy -l 40)
+
+    if [ $? -eq 0 ]; then
+	    if [ -d "$TARGET" ]; then
+		    cd "$TARGET"
+		    cd_interactive
+        else
+            echo "$TARGET"
+	    fi
+    fi
+}
+
+cd_interactive

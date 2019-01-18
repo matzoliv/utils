@@ -1,0 +1,12 @@
+#!/bin/sh
+
+function prompt {
+    git branch --sort=-committerdate | fzy -l 40
+}
+
+choice=$(prompt)
+if [ $? -eq 0 ]
+then
+    branch=$(echo "$choice" | sed -E 's/^..(.*)$/\1/')
+    git checkout "$branch"
+fi

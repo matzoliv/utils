@@ -1,0 +1,14 @@
+#!/bin/sh
+
+function prompt {
+    git status --short | grep -E '^.(M|A|D|R|\?)' | fzy -l 40
+}
+
+choice=$(prompt)
+while [ $? -eq 0 ]
+do
+    file=$(echo "$choice" | sed -E 's/^.. (.*)$/\1/')
+    git add "$file"
+    choice=$(prompt)
+done
+
